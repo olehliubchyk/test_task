@@ -29,8 +29,7 @@ def execute_sql(sql, commit=True):
         cursor = conn.cursor()
         cursor.execute(sql)
         if commit:
-            cursor.commit()
-
+            conn.commit()
 
 def retrieve_data_from_db(sql):
     with get_connection().cursor() as c:
@@ -52,12 +51,15 @@ def create_table():
     )
 
 
-def load_data_from_file(cursor):
-    with open('c:/calcscore/raw_data.csv', 'r') as f:
-        next(f)
-        cursor.copy_from(f, 'rawdata', sep=',')
-        return cursor
-
+def load_data_from_file():
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        
+           with open('c:/calcscore/raw_data.csv', 'r') as f:
+            next(f)
+            cursor.copy_from(f, 'rawdata', sep=',')
+        
+        conn.commit()
 
 def create_final_dataset_table():
     execute_sql(
@@ -131,8 +133,7 @@ def write_data_in_db(data):
 
 
 def etl_process():
-    cur = get_connection()
     create_table()
-    raw_data = load_data_from_file(cur)
+    raw_data = load_data_from_file()
     data_from_db = get_data_from_db()
     write_data_in_db(data_from_db)
