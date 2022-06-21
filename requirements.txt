@@ -9,7 +9,7 @@ itsdangerous==1.1.0
 Jinja2==2.10
 json-encoder==0.4.4
 MarkupSafe==1.1.1
-numpy==1.16.2
+numpy==1.22.0
 pandas==0.24.2
 portalocker==1.4.0
 psycopg2==2.7.7
